@@ -30,3 +30,8 @@ python manage.py makemigrations
 # django rest framework
 pip install djangorestframework
 ```
+
+## Rereference
+
+- [DRF]()
+- [Status Code](https://www.django-rest-framework.org/api-guide/status-codes/)
