@@ -3,37 +3,18 @@ from watchlist_app.models import WatchList, StreamPlatform
 from django.utils.timezone import now
 
 
-class StreamPlatformSerializer(serializers.ModelSerializer):
-  class Meta:
-    model = StreamPlatform
-    fields = "__all__"
-
 
 class WatchListSerializer(serializers.ModelSerializer):
   class Meta:
     model = WatchList
     fields = "__all__" 
 
-    '''
-    validate object
-    
-    def validate(self, data):
-      if data['name'] == data['description']:
-        raise serializers.ValidationError("Description and Name should be different!")
-      else:
-        return data
-    '''
-
-    '''
-    validate field based
-   
-    def validate_name(self, value):
-      if len(value) < 2:
-        raise serializers.ValidationError("Name is too short!")
-      else:
-        return value
-    '''
-
+class StreamPlatformSerializer(serializers.ModelSerializer):
+  # nama field harus sesuai dengan nama model
+  watchlist = WatchListSerializer(many=True, read_only=True)
+  class Meta:
+    model = StreamPlatform
+    fields = "__all__"
 
 # '''
 # custom validator
