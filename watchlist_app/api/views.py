@@ -8,12 +8,12 @@ from rest_framework.views import APIView
 
 
 class StreamPlatformAV(APIView):
-  def get(self, request, format=None):
-    platforms = StreamPlatform.objects.all()
-    serializer = StreamPlatformSerializer(platforms, many=True)
+  def get(self, request):
+    platform = StreamPlatform.objects.all()
+    serializer = StreamPlatformSerializer(platform, many=True, context={'request': request})
     return Response(serializer.data)
 
-  def post(self, request, format=None):
+  def post(self, request):
     serializer = StreamPlatformSerializer(data=request.data)
     if serializer.is_valid():
       serializer.save()
@@ -28,7 +28,7 @@ class StreamPlatformDetails(APIView):
     except StreamPlatform.DoesNotExist:
       return Response({'Error':'Platform Not Found'}, status= status.HTTP_404_NOT_FOUND)
   
-  def get(self, request, id, format=None):
+  def get(self, request, id):
     platform = self.get_object(id)
     serializer = StreamPlatformSerializer(platform)
     return Response(serializer.data, status=status.HTTP_200_OK)
