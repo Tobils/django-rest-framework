@@ -1,28 +1,44 @@
 from rest_framework import serializers
-from watchlist_app.models import WatchList, StreamPlatform
+from watchlist_app.models import WatchList, StreamPlatform, Review
 from django.utils.timezone import now
 
 
+class ReviewSerializer(serializers.ModelSerializer):
+  class Meta:
+    model = Review
+    fields = "__all__"
 
 class WatchListSerializer(serializers.ModelSerializer):
+  reviews = ReviewSerializer(many=True, read_only=True)
   class Meta:
     model = WatchList
     fields = "__all__" 
 
-class StreamPlatformSerializer(serializers.ModelSerializer):
-  # nama field harus sesuai dengan nama model
-  # watchlist = WatchListSerializer(many=True, read_only=True)
+class StreamPlatformSerializer(serializers.ModelSerializer): #HyperlinkedModelSerializer
+  watchlist = WatchListSerializer(many=True, read_only=True) # nama field harus sesuai dengan nama model
   # watchlist = serializers.StringRelatedField(many=True)
   # watchlist = serializers.PrimaryKeyRelatedField(many=True, read_only=True)
-  watchlist = serializers.HyperlinkedRelatedField(
-        many=True,
-        read_only=True,
-        view_name='watch-details',
-        lookup_field='id' # penyebab error jika tidak di tentukan field lookup nya
-    )
+  # watchlist = serializers.HyperlinkedRelatedField(
+  #       many=True,
+  #       read_only=True,
+  #       view_name='watch-details',
+  #       lookup_field='id' # penyebab error jika tidak di tentukan field lookup nya
+  #   )
+
+  # url = serializers.HyperlinkedIdentityField(
+  #       view_name='streamplatform-detail',
+  #       lookup_field='id'
+  #   )
   class Meta:
     model = StreamPlatform
     fields = "__all__"
+
+
+
+
+
+
+
 
 # '''
 # custom validator

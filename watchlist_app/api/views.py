@@ -30,7 +30,7 @@ class StreamPlatformDetails(APIView):
   
   def get(self, request, id):
     platform = self.get_object(id)
-    serializer = StreamPlatformSerializer(platform)
+    serializer = StreamPlatformSerializer(platform, context={'request': request})
     return Response(serializer.data, status=status.HTTP_200_OK)
   
   def put(self, request, id, format=None):
