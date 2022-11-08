@@ -29,9 +29,20 @@ python manage.py makemigrations
 
 # django rest framework
 pip install djangorestframework
+
+# create super user
+python3 manage.py createsuperuser
+Username (leave blank to use 'tobil'): tobil
+Email address: dev.suhada@gmail.com
+Password: password
+Password (again): password
+This password is too common.
+Bypass password validation and create user anyway? [y/N]: y
+Superuser created successfully.
 ```
 
 ## Rereference
 
 - [DRF]()
 - [Status Code](https://www.django-rest-framework.org/api-guide/status-codes/)
+- [django-relation-table](https://docs.djangoproject.com/en/3.1/topics/db/examples/)
