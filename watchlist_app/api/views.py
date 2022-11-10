@@ -1,3 +1,4 @@
+from xml.dom import ValidationErr
 from rest_framework.response import Response
 from watchlist_app.models import WatchList, StreamPlatform, Review
 from watchlist_app.api.serializers import WatchListSerializer, StreamPlatformSerializer, ReviewSerializer
@@ -20,7 +21,13 @@ class ReviewCreate(generics.CreateAPIView):
   def perform_create(self, serializer):
     pk = self.kwargs['pk']
     movie = WatchList.objects.get(pk=pk)
-    return serializer.save(watchlist=movie)
+    user = self.request.user
+    review_user = Review.objects.filter(watchlist=movie, review_user=user)
+
+    if review_user.exists():
+      raise ValidationErr("You have already give the review !")
+    
+    return serializer.save(watchlist=movie, review_user=user)
 
 
 class ReviewList(generics.ListAPIView):
