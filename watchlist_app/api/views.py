@@ -10,7 +10,11 @@ from rest_framework.views import APIView
 from rest_framework import generics
 # from rest_framework import mixins
 
+from rest_framework import viewsets
+from django.shortcuts import get_object_or_404
 
+
+# overwrite queryset
 class ReviewCreate(generics.CreateAPIView):
   serializer_class = ReviewSerializer
   def perform_create(self, serializer):
@@ -52,6 +56,45 @@ class ReviewDetail(generics.RetrieveUpdateDestroyAPIView):
 
 #   def get(self, request, *args, **kwargs):
 #       return self.retrieve(request, *args, **kwargs)
+
+
+# model view set
+
+class StreamPlatformSet(viewsets.ModelViewSet):
+  queryset = StreamPlatform.objects.all()
+  serializer_class = StreamPlatformSerializer
+
+'''
+# view set 
+
+class StreamPlatformSet(viewsets.ViewSet):
+    def list(self, request):
+        queryset = StreamPlatform.objects.all()
+        serializer = StreamPlatformSerializer(queryset, many=True)
+        return Response(serializer.data)
+
+    def retrieve(self, request, pk=None):
+        queryset = StreamPlatform.objects.all()
+        user = get_object_or_404(queryset, pk=pk)
+        serializer = StreamPlatformSerializer(user)
+        return Response(serializer.data)
+
+    def create(self, request):
+      serializer = StreamPlatformSerializer(data=request.data)
+      if serializer.is_valid():
+        serializer.save()
+        return Response(serializer.data)
+      else:
+        return Response(serializer.errors)
+    
+    def destroy(self, request, pk):
+      platform = StreamPlatform.objects.get(pk=pk)
+      platform.delete()
+      return Response(status=status.HTTP_204_NO_CONTENT)
+'''
+
+
+
 
 class StreamPlatformAV(APIView):
   def get(self, request):
