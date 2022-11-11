@@ -6,6 +6,7 @@ from rest_framework.decorators import api_view
 from rest_framework import status
 from rest_framework.response import Response
 from rest_framework.views import APIView
+from rest_framework.permissions import IsAuthenticated, IsAuthenticatedOrReadOnly
 
 
 from rest_framework import generics
@@ -32,6 +33,7 @@ class ReviewCreate(generics.CreateAPIView):
 
 class ReviewList(generics.ListAPIView):
   # queryset = Review.objects.all()
+  permission_classes = [IsAuthenticated]
   serializer_class = ReviewSerializer
   
   def get_queryset(self):
